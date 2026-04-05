@@ -6,6 +6,7 @@ Contains the GameState class which manages all game logic:
   - Tracking drawn edges (horizontal and vertical)
   - Detecting completed boxes
   - Scoring and turn management
+  - Serialization for sending over the network
 
 Both the server (authoritative) and client (for local rendering)
 can import this module.
@@ -146,5 +147,36 @@ class GameState:
             return 1
         if self.scores[2] > self.scores[1]:
             return 2
-        else:
-            return "tie"
+        return "tie"
+
+    def to_dict(self) -> dict[str, Any]:
+        """Serialize the full game state to a JSON-safe dict for broadcasting."""
+        return {
+            "horizontal_lines": list(self.horizontal_lines),
+            "vertical_lines": list(self.vertical_lines),
+            "boxes": {f"{r},{c}": p for (r, c), p in self.boxes.items()},
+            "scores": self.scores,
+            "current_turn": self.current_turn,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> GameState:
+        """
+        Reconstruct a GameState from a dict received over the network.
+        Useful for the client to maintain a local copy of the state.
+
+        Args:
+            data (dict): A dict previously produced by to_dict(), plus "grid_size".
+
+        Returns:
+            GameState
+        """
+        state = cls(data["grid_size"])
+        state.horizontal_lines = set(tuple(e) for e in data["horizontal_lines"])
+        state.vertical_lines = set(tuple(e) for e in data["vertical_lines"])
+        state.boxes = {
+            tuple(int(x) for x in k.split(",")): v for k, v in data["boxes"].items()
+        }
+        state.scores = {int(k): v for k, v in data["scores"].items()}
+        state.current_turn = data["current_turn"]
+        return state
