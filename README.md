@@ -6,10 +6,12 @@ Semester: Spring 2026
 
 --------------------------------------------------
 
-Group Members
-Name                   Student ID     Email
-Edan Stasiuk           30xxxxxxx      jane.doe@university.edu
-Noah Vattathichirayil  301548329      nva16@sfu.ca
+## 👥 Group Members
+
+| Name | Student ID | Email |
+|------|------------|-------|
+| **Edan Stasiuk** | 301450211 | [edan_stasiuk@sfu.ca](mailto:edan_stasiuk@sfu.ca) |
+| **Noah Vattathichirayil** | 301548329 | [nva16@sfu.ca](mailto:nva16@sfu.ca) |
 
 --------------------------------------------------
 
@@ -25,6 +27,8 @@ The server is responsible for:
 - Enforcing turn-based gameplay
 
 This ensures that clients cannot cheat by modifying their local game state.
+
+The game itself is called Dots and Boxes. How the game is played, is that players take turns putting edges between the dots on screen, and when a box is created, that box is awarded as a point to the player that placed the last edge to create that box. If a box is created by a player, they get to take another turn. Player wins if they have more boxes than the other by the time the entire grid is filled with claimed boxes.
 
 --------------------------------------------------
 
