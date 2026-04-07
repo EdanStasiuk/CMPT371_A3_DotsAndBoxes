@@ -159,43 +159,111 @@ If a player completes a box:
 
 ## 6. Technical Protocol Details (JSON over TCP)
 
-Message Format:
-{"type": "<string>", "payload": <data>}
-
---------------------------------------------------
-
-Handshake Phase:
-
-Client sends:
-{"type": "CONNECT"}
-
-Server responds:
-{"type": "WELCOME", "payload": "Player 1"}
-
---------------------------------------------------
-
-Gameplay Phase:
-
-Client sends:
-{"type": "MOVE", "row": 1, "col": 1, "direction": "H"}
-
-Server broadcasts:
+### Message Format:
+```json
 {
-  "type": "UPDATE",
-  "board": {...},
-  "scores": {"P1": 2, "P2": 1},
-  "turn": "Player 2",
-  "status": "ongoing"
+   "type": "<string>",
+   "...": "additional fields depending on type"
 }
+```
 
 --------------------------------------------------
 
-Game End:
+### Connection & Assignment Phase:
 
+Server sends to client:
+```json
 {
-  "type": "GAME_OVER",
-  "winner": "Player 1"
+   "type": "assign",
+   "player": 1,
+   "grid_size": 4
 }
+```
+
+- Sent immediately after connection
+- Assigns player number (1 or 2)
+- Provides grid size
+
+--------------------------------------------------
+
+### Game Start:
+
+Server broadcasts to all clients:
+```json
+{
+   "type": "start",
+   "state": { ... }
+}
+```
+
+- Sent once both players are connected
+- Includes full initial game state
+
+--------------------------------------------------
+
+### Gameplay Phase:
+
+Clients sends to 
+```json
+{
+   "type": "move",
+   "move": {
+     "orientation": "H",
+     "row": 1,
+     "col": 1
+   }
+}
+```
+
+- `orientation`: `"H"` (horizontal) or `"V"` (vertical)
+- `row`, `col`: edge coordinates
+
+Server broadcasts to all clients (State Update)
+```json
+{
+   "type": "state_update",
+   "state": { ... }
+}
+```
+
+- Broadcast after every valid move
+- `state` includes:
+   - Board representation
+   - Scores
+   - Current turn (`current_turn`)
+   - Any other game metadata
+
+--------------------------------------------------
+
+### Error Handling:
+
+Server sends to client:
+```json
+{
+   "type": "error",
+   "message": "It's not your turn."
+}
+```
+
+Examples:
+- Invalid move (edge already drawn)
+- Wrong turn
+- Player disconnected
+
+--------------------------------------------------
+
+### Game End:
+
+```json
+{
+   "type": "game_over",
+   "state": { ... },
+   "winner": 1
+}
+```
+
+- Sent when all boxes are filled
+- Includes final state and winner
 
 --------------------------------------------------
 
