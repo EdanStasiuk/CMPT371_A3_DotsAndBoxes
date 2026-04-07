@@ -63,49 +63,73 @@ Watch Project Demo on YouTube
 To run this project, you need:
 
 - Python 3.10 or higher
-- No external pip installations required (uses socket, threading, json, sys)
+- Libraries in the "requirements.txt" file (explicit instructions given on how to download)
 - (Optional) VS Code or Terminal
-
-RUBRIC NOTE: No external libraries are required.
 
 --------------------------------------------------
 
 ## 5. Step-by-Step Run Guide
 
-**RUBRIC NOTE:** The grader must be able to copy-paste these commands.
-
 ---
 
-### Step 1: Start the Server
+### Step 1: Clone repository to your own machine
 
-Open your terminal and navigate to the project folder. The server binds to 127.0.0.1 on port 5050.
+Clone the Repository to your own machine using the git
 
 ```bash
-python server.py
-# Console output: "[STARTING] Server is listening on 127.0.0.1:5050"
+git clone https://github.com/EdanStasiuk/CMPT371_A3_DotsAndBoxes.git
 ```
 
 ---
 
-### Step 2: Connect Player 1
+### Step 2: Create Virtual Environment
 
-Open a new terminal window (keep the server running). Run the client script to start the first client.
+Make sure you are in the correct project directory and then use the following commands in a terminal
+to create a virtual environment
+(This is to install the packages into locally without poluting global package space)
 
 ```bash
-python client.py
-# Console output: "Connected. Waiting for opponent..."
+# Create venv
+python3 -m venv venv
+
+# Activate (macOS/Linux)
+source venv/bin/activate
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Install necessary libraries
+pip install -r requirements.txt
+```
+
+---
+
+### Step 3: Starting the Server
+
+On a terminal start the server using the below command
+
+```bash
+python3 server.py
+```
+
+---
+
+### Step 4: Connect Player 1
+
+Open a new terminal window (keep the server running). Run the gui.py script to start the first client.
+
+```bash
+python gui.py
 ```
 
 ---
 
 ### Step 3: Connect Player 2
 
-Open a third terminal window. Run the client script again to start the second client.
+Open a third terminal window. Run the gui.py script again to start the second client.
 
 ```bash
-python client.py
-# Console output: "Connected. Waiting for opponent..."
-# Console output: "Match found! You are Player 2."
+python gui.py
 ```
 
 ---
@@ -114,27 +138,20 @@ python client.py
 
 1. Players take turns drawing lines between adjacent dots.
 
-2. When prompted, enter your move in the format:
-   ```
-   row col direction
-   ```
+2. When prompted, hover over where you would like to place a line, and click.
 
-3. Where:
-   - `row`, `col` specify the starting dot  
-   - `direction` is:
-     - `H` for horizontal  
-     - `V` for vertical  
+3. Players take turns placing lines, completing boxes as they go.
 
-4. The server will:
+The server will:
    - Update the board on both clients  
    - Check for completed boxes  
    - Update scores  
 
-5. If a player completes a box:
+If a player completes a box:
    - They earn a point  
    - They get another turn  
 
-6. The game ends when all boxes are completed, and the winner is announced.
+4. The game ends when all boxes are completed, and the winner is announced.
 
 --------------------------------------------------
 
@@ -182,8 +199,6 @@ Game End:
 
 ## 7. Academic Integrity & References
 
-RUBRIC NOTE: List all references used and assistance received.
-
 Code Origin:
 The socket communication structure was adapted from the course TCP Echo Server example. The game logic, protocol design, and synchronization mechanisms were implemented by the group.
 
@@ -191,6 +206,7 @@ The socket communication structure was adapted from the course TCP Echo Server e
 
 GenAI Usage:
 - ChatGPT was used to help design the JSON protocol and README formatting
+- GenAI (Claude AI) was used to create the Graphical User Interface in gui.py
 
 --------------------------------------------------
 
@@ -198,5 +214,6 @@ References:
 - Python Socket Programming HOWTO
 - Real Python: Introduction to Python Threading
 - TA Guided Tutorial https://www.youtube.com/playlist?list=PL-8C2cUhmkO1yWLTCiqf4mFXId73phvdx
+- Claude AI
 
 --------------------------------------------------
