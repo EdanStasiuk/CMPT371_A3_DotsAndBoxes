@@ -119,7 +119,7 @@ python3 server.py
 Open a new terminal window (keep the server running). Run the gui.py script to start the first client.
 
 ```bash
-python gui.py
+python3 gui.py
 ```
 
 ---
@@ -129,7 +129,7 @@ python gui.py
 Open a third terminal window. Run the gui.py script again to start the second client.
 
 ```bash
-python gui.py
+python3 gui.py
 ```
 
 ---
