@@ -56,7 +56,7 @@ Our 2-minute video demonstration covering connection establishment, data exchang
 
 Watch Project Demo on YouTube
 
-https://youtu.be/muYYl-1Y0HY
+https://youtu.be/gsqeIgZTMPE
 
 --------------------------------------------------
 
