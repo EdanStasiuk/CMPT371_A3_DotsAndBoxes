@@ -299,6 +299,7 @@ GenAI Usage:
 - ChatGPT was used to help design the JSON protocol and README formatting
 - Claude was used to come up with ideas for limitations
 - GenAI (Claude AI) was used to create the Graphical User Interface in gui.py
+- GenAI (Claude AI) was used to supplement documentation of the code
 
 --------------------------------------------------
 
