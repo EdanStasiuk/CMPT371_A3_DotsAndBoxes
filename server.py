@@ -11,6 +11,8 @@ Architecture: Client-Server (TCP)
   - Once both players are connected, the game begins
   - Players alternate sending moves; server validates and broadcasts state
   - Server detects game over and announces the winner
+
+Documentation and inline comments were supplemented with the assistance of generative AI (Claude).
 """
 
 import json
