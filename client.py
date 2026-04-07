@@ -11,6 +11,8 @@ Architecture: Client-Server (TCP)
   - Client connects to the server by IP and port
   - Receives: "assign", "start", "state_update", "game_over", "error"
   - Sends:    move messages when it's the local player's turn
+
+Documentation and inline comments were supplemented with the assistance of generative AI (Claude).
 """
 
 import json

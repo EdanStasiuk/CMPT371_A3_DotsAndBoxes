@@ -10,6 +10,8 @@ Contains the GameState class which manages all game logic:
 
 Both the server (authoritative) and client (for local rendering)
 can import this module.
+
+Documentation and inline comments were supplemented with the assistance of generative AI (Claude).
 """
 
 from __future__ import annotations
