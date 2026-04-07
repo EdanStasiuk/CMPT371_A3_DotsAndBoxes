@@ -56,6 +56,8 @@ Our 2-minute video demonstration covering connection establishment, data exchang
 
 Watch Project Demo on YouTube
 
+https://youtu.be/6pbPA578znY
+
 --------------------------------------------------
 
 ## 4. Prerequisites (Fresh Environment)
