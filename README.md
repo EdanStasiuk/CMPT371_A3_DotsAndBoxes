@@ -34,19 +34,24 @@ The game itself is called Dots and Boxes. How the game is played, is that player
 
 ## 2. System Limitations & Edge Cases
 
-TBD
+Exactly Two Players Required:
+
+Limitation: The server does not support spectators, reconnection, or more than 2 players. If a third client attempts to connect after the game starts, it will be left hanging with no response, as the server stops accepting new connections once the game begins.
+Solution: The server explicitly waits for exactly 2 TCP connections before starting the game. Once both players are connected, the server broadcasts a start message and begins handling moves.
 
 --------------------------------------------------
 
-TBD
+Single Game Per Server Instance:
+
+Limitation: The server manages exactly one game session per run. Once the game ends (or a player disconnects), the server process exits. To play another game, both the server and both clients must be restarted manually.
+Solution: Implementation that would loop back to the lobby and accept new connections after each game concludes.
 
 --------------------------------------------------
 
-TBD
+Fixed Grid Size:
 
---------------------------------------------------
-
-TBD
+Limitation: The grid size (default 4×4) is hardcoded in server.py via the GRID_SIZE constant and cannot be changed once the server is running. Players cannot select a board size. Changing the grid size requires editing the constant and restarting the server before any clients connect.
+Solution: Make an option for different grid sizes before game start
 
 --------------------------------------------------
 
@@ -292,6 +297,7 @@ The socket communication structure was adapted from the course TCP Echo Server e
 
 GenAI Usage:
 - ChatGPT was used to help design the JSON protocol and README formatting
+- Claude was used to come up with ideas for limitations
 - GenAI (Claude AI) was used to create the Graphical User Interface in gui.py
 
 --------------------------------------------------
