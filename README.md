@@ -124,6 +124,22 @@ Open a new terminal window (keep the server running). Run the gui.py script to s
 python3 gui.py
 ```
 
+#### Troubleshooting:
+
+If you receive the following error:
+
+```bash
+ModuleNotFoundError: No module named 'pygame'
+```
+
+This usually means your terminal is using the system's Python instead of the one in your virtual environment (common if `python3` is aliased to a global version).
+
+Quick Fix: Run the script by pointing directly to the virtual environment’s Python binary:
+
+```bash
+./venv/bin/python3 gui.py
+```
+
 ---
 
 ### Step 3: Connect Player 2
