@@ -151,7 +151,7 @@ If a player completes a box:
    - They earn a point  
    - They get another turn  
 
-4. The game ends when all boxes are completed, and the winner is announced.
+4. The game ends when all boxes are completed, and the winner is announced. Windows can be closed by both players, disconnecting from server.
 
 --------------------------------------------------
 
