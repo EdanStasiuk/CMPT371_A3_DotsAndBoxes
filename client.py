@@ -33,11 +33,11 @@ class GameClient:
 
     GUI Integration:
         Register callbacks before calling connect():
-            client.on_assign      = lambda player, grid_size: ...
-            client.on_start       = lambda state: ...
-            client.on_state_update= lambda state: ...
-            client.on_game_over   = lambda state, winner: ...
-            client.on_error       = lambda message: ...
+            client.on_assign       = lambda player, grid_size: ...
+            client.on_start        = lambda state: ...
+            client.on_state_update = lambda state: ...
+            client.on_game_over    = lambda state, winner: ...
+            client.on_error        = lambda message: ...
 
         To send a move:
             client.send_move("H", row, col)  # horizontal edge
@@ -225,104 +225,9 @@ class GameClient:
         return buf
 
 
-# ---- CLI Test Interface -------------------
-# This section runs a simple text-based game loop for testing the TCP layer
-# without a GUI. TODO: Replace with the GUI.
-
-
-def run_cli(client):
-    """
-    A minimal command-line interface to test the client/server connection.
-    Replace this with your GUI integration.
-
-    Commands:
-        H <row> <col>   - Draw a horizontal line
-        V <row> <col>   - Draw a vertical line
-        quit            - Disconnect and exit
-    """
-
-    def print_state(state):
-        """Print a simple text representation of the board."""
-        g = state["grid_size"] if "grid_size" in state else client.grid_size
-        h_lines = set(tuple(e) for e in state["horizontal_lines"])
-        v_lines = set(tuple(e) for e in state["vertical_lines"])
-        boxes = {
-            tuple(int(x) for x in k.split(",")): v for k, v in state["boxes"].items()
-        }
-
-        print()
-        for r in range(g + 1):
-            # Print horizontal edges for this row
-            row_str = "."
-            for c in range(g):
-                row_str += "---" if (r, c) in h_lines else "   "
-                row_str += "."
-            print(row_str)
-
-            # Print vertical edges and box owners between rows
-            if r < g:
-                row_str = ""
-                for c in range(g + 1):
-                    row_str += "|" if (r, c) in v_lines else " "
-                    if c < g:
-                        owner = boxes.get((r, c))
-                        row_str += f" {owner} " if owner else "   "
-                print(row_str)
-
-        scores = state["scores"]
-        print(f"Score — P1: {scores['1']}  P2: {scores['2']}")
-        print(f"Turn: Player {state['current_turn']}")
-        print()
-
-    # Register callbacks
-    client.on_assign = lambda p, g: print(
-        f"\nYou are Player {p}. Waiting for opponent..."
-    )
-    client.on_start = lambda s: (print("\nGame started!"), print_state(s))
-    client.on_state_update = print_state
-    client.on_game_over = lambda s, w: (
-        print_state(s),
-        print(
-            f"\n{'You win!' if w == client.player_number else 'You lose.' if w != 'tie' else 'It is a tie!'}"
-        ),
-    )
-    client.on_error = lambda msg: print(f"[!] {msg}")
-
-    print("Commands: H <row> <col>  |  V <row> <col>  |  quit")
-
-    while True:
-        try:
-            line = input("> ").strip()
-        except (EOFError, KeyboardInterrupt):
-            break
-
-        if line.lower() == "quit":
-            break
-
-        parts = line.split()
-        if len(parts) != 3 or parts[0].upper() not in ("H", "V"):
-            print("Usage: H <row> <col>  or  V <row> <col>")
-            continue
-
-        orientation = parts[0].upper()
-        try:
-            row, col = int(parts[1]), int(parts[2])
-        except ValueError:
-            print("Row and col must be integers.")
-            continue
-
-        client.send_move(orientation, row, col)
-
-    client.disconnect()
-
-
 # ---- Entry Point --------------------------
 
 if __name__ == "__main__":
     host = sys.argv[1] if len(sys.argv) > 1 else HOST
     client = GameClient(host, PORT)
     client.connect()
-
-    # Block the main thread in the CLI loop
-    # Replace run_cli(client) with your GUI's main loop
-    run_cli(client)
